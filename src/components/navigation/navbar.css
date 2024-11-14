@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4; /* Lys bakgrunn for bedre kontrast */
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(90deg, #ffffff, #f8f8f8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 10%;
+}
+
+.logo a {
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.logo a:hover {
+  color: #ff6600;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  position: relative;
+  padding: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff6600;
+}
+
+.nav-links a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #ff6600;
+  transition: width 0.3s ease;
+  margin-top: 5px;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.3s ease;
+}
+
+.burger div {
+  width: 30px;
+  height: 3px;
+  background: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.burger:hover div {
+  background: #ff6600;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: #fff;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    font-size: 1.5rem; /* For bedre lesbarhet på mobil */
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  .burger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .burger.active div:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+}
