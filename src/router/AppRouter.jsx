@@ -5,6 +5,7 @@ import { Suspense, lazy } from 'react';
 const Home = lazy(() => import('../pages/home/Home'));
 const Theory = lazy(() => import('../pages/theory/Theory'));
 const CardGame = lazy(() => import('../pages/game/CardGame'));
+const DragAndDropCardGame = lazy(() => import('../pages/game/DragAndDropGame'));
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/theory" element={<Theory />} />
         <Route path="/cardgame" element={<CardGame />} />
+        <Route path="/DragAndDropCardGame" element={<DragAndDropCardGame />} />
       </Routes>
     </Suspense>
   );

@@ -19,6 +19,8 @@ function Navbar() {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/theory">Theory</Link></li>
           <li><Link to="/cardGame">Cardgame</Link></li>
+          <li><Link to="/dragAndDrop">Drag and drop</Link></li>
+          
         </ul>
         <div className="burger" onClick={toggleMenu}>
           <div className="line1"></div>

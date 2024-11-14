@@ -1,125 +1,93 @@
 import { useState, useEffect } from 'react';
-import './cardGame.css';
-import PropTypes from 'prop-types';
+import Card from './Card';
+import './game.css';
 
-const cardPairs = [
-  { label: 'Bergen', match: 'Norway' },
-  { label: 'Paris', match: 'France' },
-  { label: 'London', match: 'England' },
+const initialCards = [
+  { id: 1, text: 'Ninja so', matchId: 1 },
+  { id: 2, text: 'Knivhåndsblokk', matchId: 1 },
+  { id: 3, text: 'Dwitbal chagi', matchId: 2 },
+  { id: 4, text: 'Bakstilling spark', matchId: 2 },
+  { id: 5, text: 'Charyot sogi', matchId: 3 },
+  { id: 6, text: 'Parallel stance', matchId: 3 },
+  { id: 7, text: 'Ap chagi', matchId: 4 },
+  { id: 8, text: 'Front kick', matchId: 4 },
 ];
 
 const CardGame = () => {
-  const [cards, setCards] = useState([]);
-  const [turns, setTurns] = useState(0);
-  const [choiceOne, setChoiceOne] = useState(null);
-  const [choiceTwo, setChoiceTwo] = useState(null);
-  const [disabled, setDisabled] = useState(false);
+  const [cards, setCards] = useState(() => shuffle([...initialCards, ...initialCards]));
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [matchedPairs, setMatchedPairs] = useState([]);
+  const [moves, setMoves] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60); // 60 sekunder
 
   useEffect(() => {
-    shuffleCards();
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => Math.max(prev - 1, 0));
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
-  const shuffleCards = () => {
-    const shuffledCards = [...cardPairs, ...cardPairs.map(card => ({
-      label: card.match,
-      match: card.match,
-    }))]
-      .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: Math.random(), status: null }));
-
-    setCards(shuffledCards);
-    setTurns(0);
-    setChoiceOne(null);
-    setChoiceTwo(null);
-  };
-
-  const handleChoice = (card) => {
-    choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
-  };
-
   useEffect(() => {
-    if (choiceOne && choiceTwo) {
-      setDisabled(true);
-      if (choiceOne.match === choiceTwo.match) {
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.match === choiceOne.match
-              ? { ...card, status: 'correct' }
-              : card
-          )
-        );
-        resetTurn();
-      } else {
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.id === choiceOne.id || card.id === choiceTwo.id
-              ? { ...card, status: 'wrong' }
-              : card
-          )
-        );
-        setTimeout(() => resetTurn(), 1000);
+    if (timeLeft === 0) {
+      alert('Tiden er ute! Prøv igjen.');
+      resetGame();
+    }
+  }, [timeLeft]);
+
+  const handleCardClick = (card) => {
+    if (selectedCards.length < 2 && !selectedCards.includes(card)) {
+      setSelectedCards((prev) => [...prev, card]);
+
+      if (selectedCards.length === 1) {
+        setMoves((prev) => prev + 1);
+
+        if (selectedCards[0].matchId === card.matchId) {
+          setMatchedPairs((prev) => [...prev, card.matchId]);
+          setSelectedCards([]);
+        } else {
+          setTimeout(() => setSelectedCards([]), 1000);
+        }
       }
     }
-  }, [choiceOne, choiceTwo]);
-
-  const resetTurn = () => {
-    setChoiceOne(null);
-    setChoiceTwo(null);
-    setTurns((prevTurns) => prevTurns + 1);
-    setCards((prevCards) =>
-      prevCards.map((card) => ({ ...card, status: null }))
-    );
-    setDisabled(false);
   };
-  useEffect(() => {
-    console.log(cards); // Dette vil logge kortene i konsollen
-  }, [cards]);
-  
+
+  const resetGame = () => {
+    setCards(shuffle([...initialCards, ...initialCards]));
+    setMatchedPairs([]);
+    setSelectedCards([]);
+    setMoves(0);
+    setTimeLeft(60);
+  };
 
   return (
-    <div className="card-game">
-      <h1>Memory Card Game</h1>
-      <button onClick={shuffleCards}>New Game</button>
+    <div className="game-container">
+      <div className="header">
+        <h1>Memory Match Game</h1>
+        <div className="stats">
+          <span>Moves: {moves}</span>
+          <span>Time Left: {timeLeft}s</span>
+        </div>
+        <button onClick={resetGame}>Restart Game</button>
+      </div>
       <div className="card-grid">
-        {cards.map((card) => (
+        {cards.map((card, index) => (
           <Card
-            key={card.id}
+            key={index}
             card={card}
-            handleChoice={handleChoice}
-            disabled={disabled}
+            isFlipped={selectedCards.includes(card) || matchedPairs.includes(card.matchId)}
+            onClick={() => handleCardClick(card)}
           />
         ))}
       </div>
-      <p>Turns: {turns}</p>
     </div>
   );
 };
 
-const Card = ({ card, handleChoice, disabled }) => {
-  const handleClick = () => {
-    if (!disabled) {
-      handleChoice(card);
-    }
-  };
-
-  return (
-    <div
-      className={`card ${card.status}`}
-      onClick={handleClick}
-    >
-      <div className="content">{card.label}</div>
-    </div>
-  );
-};
-
-Card.propTypes = {
-  card: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    match: PropTypes.string.isRequired,
-    status: PropTypes.oneOf([null, 'correct', 'wrong']),
-  }).isRequired,
-  handleChoice: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
+const shuffle = (array) => {
+  return array.sort(() => Math.random() - 0.5);
 };
 
 export default CardGame;
+
+
+
