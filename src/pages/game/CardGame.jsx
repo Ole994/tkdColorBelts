@@ -1,93 +1,106 @@
-import { useState, useEffect } from 'react';
-import Card from './Card';
-import './game.css';
+import { useState,useEffect } from 'react';
+import './game.css'; // Importer CSS for designet
 
-const initialCards = [
-  { id: 1, text: 'Ninja so', matchId: 1 },
-  { id: 2, text: 'Knivhåndsblokk', matchId: 1 },
-  { id: 3, text: 'Dwitbal chagi', matchId: 2 },
-  { id: 4, text: 'Bakstilling spark', matchId: 2 },
-  { id: 5, text: 'Charyot sogi', matchId: 3 },
-  { id: 6, text: 'Parallel stance', matchId: 3 },
-  { id: 7, text: 'Ap chagi', matchId: 4 },
-  { id: 8, text: 'Front kick', matchId: 4 },
+// Legg til CSS for styling av spillet
+const questions = [
+  { id: 1, type: 'question', text: 'Vertikal stilling' },
+  { id: 2, type: 'question', text: 'Sittestilling middels skyvende blokk med håndflate' },
+  { id: 3, type: 'question', text: 'Tett stilling side-front blokk med innsiden av underarmen' },
+  { id: 4, type: 'question', text: 'L-stilling oppoverpunch' },
+  { id: 5, type: 'question', text: 'L-stilling middels rett punch' },
+  { id: 6, type: 'question', text: 'Vertikal stilling nedoverslag med knivhånd' },
+  { id: 7, type: 'question', text: 'L-stilling sidestøt med albuen' },
+  { id: 8, type: 'question', text: 'Flygende frontspark' },
+];
+
+const answers = [
+  { id: 1, type: 'answer', text: 'so jik sogi' },
+  { id: 2, type: 'answer', text: 'Annun so sonbadak kaunde miro makgi' },
+  { id: 3, type: 'answer', text: 'Moa so an palmok yobap makgi' },
+  { id: 4, type: 'answer', text: 'niunja so ollyo jirugi' },
+  { id: 5, type: 'answer', text: 'niunja so kaunde baro jirugi' },
+  { id: 6, type: 'answer', text: 'soo jik so sonkal naeryo taerigi' },
+  { id: 7, type: 'answer', text: 'niunja so yop palkup tulgi' },
+  { id: 8, type: 'answer', text: 'twimyo ap chagi' },
 ];
 
 const CardGame = () => {
-  const [cards, setCards] = useState(() => shuffle([...initialCards, ...initialCards]));
+  const [cards, setCards] = useState([]); // Holder alle kort
+  const [visibleCards, setVisibleCards] = useState([]); // Holder 4 kort om gangen
   const [selectedCards, setSelectedCards] = useState([]);
-  const [matchedPairs, setMatchedPairs] = useState([]);
-  const [moves, setMoves] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60); // 60 sekunder
+  const [matchedCards, setMatchedCards] = useState([]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => Math.max(prev - 1, 0));
-    }, 1000);
-    return () => clearInterval(timer);
+    const shuffledCards = [...questions, ...answers].sort(() => Math.random() - 0.5);
+    setCards(shuffledCards);
+    pickVisibleCards(shuffledCards, []);
   }, []);
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      alert('Tiden er ute! Prøv igjen.');
-      resetGame();
+  const pickVisibleCards = (allCards, matchedIds) => {
+    const remainingCards = allCards.filter((card) => !matchedIds.includes(card.id));
+    let selected = [];
+
+    while (selected.length < 4) {
+      const questionCard = remainingCards.find((card) => card.type === 'question' && !selected.includes(card));
+      const answerCard = remainingCards.find((card) => card.type === 'answer' && card.id === questionCard.id);
+
+      if (questionCard && answerCard) {
+        selected = [...selected, questionCard, answerCard];
+        remainingCards.splice(remainingCards.indexOf(questionCard), 1);
+        remainingCards.splice(remainingCards.indexOf(answerCard), 1);
+      }
+
+      // Hvis vi ikke klarer å fylle opp 4 kort
+      if (selected.length >= 4 || remainingCards.length === 0) break;
     }
-  }, [timeLeft]);
+
+    setVisibleCards(selected.slice(0, 4));
+  };
 
   const handleCardClick = (card) => {
     if (selectedCards.length < 2 && !selectedCards.includes(card)) {
       setSelectedCards((prev) => [...prev, card]);
-
-      if (selectedCards.length === 1) {
-        setMoves((prev) => prev + 1);
-
-        if (selectedCards[0].matchId === card.matchId) {
-          setMatchedPairs((prev) => [...prev, card.matchId]);
-          setSelectedCards([]);
-        } else {
-          setTimeout(() => setSelectedCards([]), 1000);
-        }
-      }
     }
   };
 
-  const resetGame = () => {
-    setCards(shuffle([...initialCards, ...initialCards]));
-    setMatchedPairs([]);
-    setSelectedCards([]);
-    setMoves(0);
-    setTimeLeft(60);
-  };
+  useEffect(() => {
+    if (selectedCards.length === 2) {
+      const [firstCard, secondCard] = selectedCards;
+
+      if (firstCard.id === secondCard.id && firstCard.type !== secondCard.type) {
+        setMatchedCards((prev) => [...prev, firstCard.id]);
+        setTimeout(() => {
+          pickVisibleCards(cards, [...matchedCards, firstCard.id]); // Plukk nye 4 kort basert på det som er igjen
+        }, 500);
+      }
+
+      setTimeout(() => setSelectedCards([]), 6000);
+    }
+  }, [selectedCards]);
 
   return (
-    <div className="game-container">
-      <div className="header">
-        <h1>Memory Match Game</h1>
-        <div className="stats">
-          <span>Moves: {moves}</span>
-          <span>Time Left: {timeLeft}s</span>
-        </div>
-        <button onClick={resetGame}>Restart Game</button>
-      </div>
+    <div className="card-game-container">
+      <h1>Match the Cards</h1>
       <div className="card-grid">
-        {cards.map((card, index) => (
-          <Card
+        {visibleCards.map((card, index) => (
+          <div
             key={index}
-            card={card}
-            isFlipped={selectedCards.includes(card) || matchedPairs.includes(card.matchId)}
+            className={`card ${selectedCards.includes(card) || matchedCards.includes(card.id) ? 'flipped' : ''}`}
             onClick={() => handleCardClick(card)}
-          />
+          >
+            <div className="card-inner">
+              <div className="card-front">
+                <p>{card.type === 'question' ? card.text : '?'}</p>
+              </div>
+              <div className="card-back">
+                <p>{card.text}</p>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-const shuffle = (array) => {
-  return array.sort(() => Math.random() - 0.5);
-};
-
 export default CardGame;
-
-
-

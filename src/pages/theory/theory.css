@@ -1,0 +1,127 @@
+/* Generell styling */
+
+  .new-history-container {
+    h1{
+        color: whitesmoke;
+    }
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+    background: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  
+  
+  .new-history-header {
+    text-align: center;
+    background: #3e2723;
+    color: #ffcc80;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .new-history-header h1 {
+    font-size: 2.8rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 10px;
+  }
+  
+  .new-history-header p {
+    font-size: 1.2rem;
+  }
+  
+  .new-history-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+  
+  .new-history-text {
+    flex: 1 1 60%;
+    background: #212121;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .new-history-text h2 {
+    color: #ffcc80;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .new-history-text p, 
+  .new-history-text li {
+    color: #ffffff; /* Hvite tekster */
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+  
+  .new-history-text ul {
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  
+  .new-history-image {
+    flex: 1 1 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .new-history-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  }
+  
+  .new-history-footer {
+    text-align: center;
+    margin-top: 30px;
+    background: #3e2723;
+    color: #ffcc80;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  /* Responsiv design */
+  @media (max-width: 768px) {
+    .new-history-text {
+      flex: 1 1 100%;
+    }
+  
+    .new-history-image {
+      flex: 1 1 100%;
+    }
+  
+    .new-history-header h1 {
+      font-size: 2rem;
+    }
+  
+    .new-history-header p {
+      font-size: 1rem;
+    }
+  
+    .new-history-footer {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .new-history-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .new-history-header p {
+      font-size: 0.9rem;
+    }
+  
+    .new-history-text {
+      padding: 15px;
+    }
+  }
+  
+  }

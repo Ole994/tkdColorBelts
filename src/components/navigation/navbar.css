@@ -12,7 +12,7 @@ body {
 }
 
 header {
-  position: sticky;
+ 
   top: 0;
   background: linear-gradient(90deg, #ffffff, #f8f8f8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

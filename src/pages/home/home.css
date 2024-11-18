@@ -1,0 +1,197 @@
+.hero-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    height: 100vh;
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: white;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+    z-index: 2;
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .cta-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .hero-image {
+    max-width: 600px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Media Queries for Responsiveness */
+  
+  /* For nettbrett og mindre skjermer */
+  @media (max-width: 1024px) {
+    .hero-container {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 30px;
+      height: auto; /* Dynamisk høyde */
+    }
+  
+    .hero-content {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+  
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+  
+    .hero-content p {
+      font-size: 1.2rem;
+    }
+  
+    .cta-button {
+      padding: 12px 24px;
+      font-size: 0.9rem;
+    }
+  
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  
+  /* For mobilskjermer */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .hero-content p {
+      font-size: 1rem;
+    }
+  
+    .cta-button {
+      padding: 10px 20px;
+      font-size: 0.8rem;
+    }
+  
+    .hero-image {
+      max-width: 90%;
+      margin-top: 10px;
+    }
+  }
+  
+  /* For små mobilskjermer */
+  @media (max-width: 480px) {
+    .hero-container {
+      padding: 20px;
+    }
+  
+    .hero-content h1 {
+      font-size: 1.8rem;
+    }
+  
+    .hero-content p {
+      font-size: 0.9rem;
+    }
+  
+    .cta-button {
+      padding: 8px 16px;
+      font-size: 0.7rem;
+    }
+  }
+
+
+  .origin-section {
+    background-color: #1c2833; /* Dypere blågrå for kontrast */
+    color: #e8eaf6; /* Lysere tekst for bedre lesbarhet */
+    padding: 60px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .origin-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Subtil transparent boks */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .origin-content h2 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #ffcc00; /* Gullaktig farge for å fremheve overskriften */
+  }
+  
+  .origin-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: justify;
+  }
+  
+  /* Responsiv design */
+  
+  /* Nettbrett */
+  @media (max-width: 1024px) {
+    .origin-content h2 {
+      font-size: 2.4rem;
+    }
+  
+    .origin-content p {
+      font-size: 1.1rem;
+    }
+  }
+  
+  /* Mobil */
+  @media (max-width: 768px) {
+    .origin-section {
+      padding: 40px 20px;
+    }
+  
+    .origin-content h2 {
+      font-size: 2rem;
+    }
+  
+    .origin-content p {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Små mobiler */
+  @media (max-width: 480px) {
+    .origin-content h2 {
+      font-size: 1.8rem;
+    }
+  
+    .origin-content p {
+      font-size: 0.9rem;
+    }
+  }
+  
